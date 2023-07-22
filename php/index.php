@@ -17,6 +17,7 @@
     var input = $('#input');
     var usr=Cookie.get("name");
     var msgtt=0;
+    var dealy=3000;//轮询延迟
     if(usr.length==0){
       fetch("/read.php").then(t=>t.json()).then(k=>{
         usr=k.name;
@@ -30,12 +31,12 @@
             fetch(`/send.php?msg=${btoa(encodeURIComponent(input.value))}&name=${usr}&t=${String(Date.now())}`);
             input.value = '';
             $("#form>button").style.background="rgb(51, 54, 57)";
-            back();
+            //back();
         }
     });
     var mid=1;
     function back(){
-      fetch(`/read.php?id=${mid}`).then(r=>r.json()).then(k=>{
+      return fetch(`/read.php?id=${mid}`).then(r=>r.json()).then(k=>{
         if(k.length){
           for(var i=0;i<k.length;i++){
             if(k[i][2]-msgtt>=600000||msgtt==0){
@@ -62,7 +63,12 @@
         }
       })
     }
-    setInterval(()=>back(),3000);
+    function wrap(){
+      back().then(()=>{setTimeout(() => {
+        wrap();
+      }, dealy);})
+    }
+    wrap();
     function animate(el, params, speed) {//speed是以秒为单位的数字
       el.style.transition = 'all ' + speed + 's';
       Object.keys(params).forEach((key) => {
