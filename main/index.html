@@ -4,7 +4,9 @@
     <title>Talk | DU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./style.css">
-    <script src="https://deversunion.com/js/lib.min.js"></script>
+    <script src="lib.min.js"></script>
+    <script src="avatar.js"></script>
+    <script src="lib/femd2.2.0.js"></script>
   </head>
   <body>
     <ul id="messages"></ul>
@@ -15,12 +17,22 @@
     var messages = $('#messages');
     var form = $('#form');
     var input = $('#input');
-    var usr=Cookie.get("name");
+    var usr="";//Cookie.get("name");
     var msgtt=0;
     var netfn=[];
     var lock=1;
     var sumsg;
     var lastws;
+    var avatar;
+
+    function getRemPixelValue() {
+      const body = document.body;
+      const style = window.getComputedStyle(body);
+      return parseFloat(style.fontSize);
+    }
+ 
+    const remInPixels = getRemPixelValue();//get 1rem
+
     if(usr.length==0){
       usr=[1,1,1,1,1,1].map(()=>String.fromCharCode(97+Math.floor(Math.random()*26)));
       usr[0]=usr[0].toLocaleUpperCase();
@@ -50,18 +62,41 @@
               messages.appendChild($h("p",new Date(Number(k[i][2])).format()))
               msgtt=k[i][2];
             }
-            var gf=$h('div',{
-              class:k[i][1]==usr?"mess":"messleft"
-            },[
-              $h("div",{class:"avatar"},[
-                $h("img",{src:"./avatar.png"})
-              ]),
-              $h("div",{class:"main"},[
-                $h("p",/*new Date(Number(k[i][2])).format()*/k[i][1]),
-                $h("div",[$h("div",decodeURIComponent(atob(k[i][0]))/*.replaceAll(" ","&nbsp;").replaceAll("<","&lt;").replaceAll(">"," 	&gt;")*/)])
-              ])
-            ]
-            );
+            var inner=decodeURIComponent(atob(k[i][0]));
+            var gf;
+            if(inner.startsWith("markdown\n")||inner.startsWith("md\n")||inner.startsWith("femd\n")||inner.startsWith("femarkdown\n")||inner.startsWith("markdown++\n")){
+              inner=inner.slice(inner.indexOf("\n")+1);
+              gf=$h('div',{
+                class:k[i][1]==usr?"mess":"messleft"
+              },[
+                $h("div",{class:"avatar"},[
+                  //avatar.tosvg(usr,100)
+                  //$h("img",{src:"./avatar.png"})
+                ]),
+                $h("div",{class:"main"},[
+                  $h("p",/*new Date(Number(k[i][2])).format()*/k[i][1]),
+                  $h("div",{class:"md"})
+                ])
+              ]
+              );
+              gf.children[1].children[1].innerHTML=new Femd(inner).toDOM().n.join("");
+            }else{
+              gf=$h('div',{
+                class:k[i][1]==usr?"mess":"messleft"
+              },[
+                $h("div",{class:"avatar"},[
+                  //avatar.tosvg(usr,100)
+                  //$h("img",{src:"./avatar.png"})
+                ]),
+                $h("div",{class:"main"},[
+                  $h("p",/*new Date(Number(k[i][2])).format()*/k[i][1]),
+                  $h("div",[$h("div",inner)])
+                ])
+              ]
+              );
+            }
+            gf.children[0].innerHTML=avatar.tosvg(k[i][1],remInPixels*2);
+            console.log(gf);
             messages.appendChild(gf);
             messages.scrollTo(0, gf.offsetTop);
           }
@@ -98,7 +133,7 @@
       }, 10000);
       console.log("WebSocket is closed now.Begin to reconnect.");
     });
-    const address="wss://kl5zjv-3000.csb.app";
+    const address="ws://localhost:3000";
     var talkid_arr=location.search.slice(1).split("=");
     var talkid;
     if(talkid_arr[0]=="talkid"){

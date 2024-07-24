@@ -45,6 +45,7 @@ body {
   color: #fff;
 }
 #messages {
+  scroll-behavior: smooth;
   overflow-x: hidden;
   overflow-y: auto;
   height: calc(100% - 5rem);
@@ -71,18 +72,15 @@ body {
   height: 2rem;
   flex-shrink: 0;
   flex-basis: 2rem;
-  border-radius: 1rem;
 }
 .messleft > div.avatar {
   margin-right: 0.5rem;
   height: 2rem;
   flex-shrink: 0;
   flex-basis: 2rem;
-  border-radius: 1rem;
 }
-.mess > div.avatar > img,
-.messleft > div.avatar > img {
-  border-radius: 1rem;
+.mess > div.avatar > svg,
+.messleft > div.avatar > svg {
   width: 2rem;
   height: 2rem;
 }
@@ -90,6 +88,10 @@ body {
 .messleft > div.main {
   font-size: 0.875rem;
   line-height: 1.25rem;
+}
+div.md{
+  background-color: rgb(244, 246, 248);
+  padding: 0.5rem 1rem !important;
 }
 .mess > div.main > p {
   color: rgb(180, 187, 196);
