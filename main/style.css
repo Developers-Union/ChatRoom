@@ -8,7 +8,7 @@ body {
   overflow: hidden;
 }
 #form {
-  padding: 0.25rem;
+  padding: 0;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -18,29 +18,34 @@ body {
   box-sizing: border-box;
 }
 #input {
+  flex-grow: 0.8;
   resize: none;
   box-sizing: border-box;
   transition: all 0.2s;
   color: black;
   background-color: white;
-  border: 1px solid rgb(51, 54, 57);
+  border-top: 1px solid rgb(51, 54, 57);
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
   padding: 5px 10px;
   flex-grow: 1;
-  border-radius: 3px;
-  margin: 0.25rem;
+  border-radius: 0;
+  margin: 0;
   caret-color: #ac0dac;
 }
 #input:focus {
   outline: none;
-  border: 1px solid #ac0dac;
+  border-top: 1px solid #ac0dac;
 }
 #form > button {
   transition: all 0.5s;
   background: rgb(51, 54, 57);
   border: none;
-  padding: 0 1rem;
-  margin: 0.25rem;
-  border-radius: 3px;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  flex-grow: 0.2;
   outline: none;
   color: #fff;
 }
@@ -52,7 +57,7 @@ body {
   color: black;
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0.5rem;
 }
 .mess {
   overflow: hidden;
@@ -90,7 +95,7 @@ body {
   line-height: 1.25rem;
 }
 div.md{
-  background-color: rgb(244, 246, 248);
+  border: 1px solid rgb(191, 191, 191);
   padding: 0.5rem 1rem !important;
 }
 .mess > div.main > p {
@@ -101,6 +106,19 @@ div.md{
   margin: 0;
 }
 .messleft > div.main > p {
+  color: rgb(180, 187, 196);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  margin: 0;
+}
+.mess > div.mainmd > p {
+  color: rgb(180, 187, 196);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-align: right;
+  margin: 0;
+}
+.messleft > div.mainmd > p {
   color: rgb(180, 187, 196);
   font-size: 0.75rem;
   line-height: 1rem;

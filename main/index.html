@@ -3,7 +3,8 @@
   <head>
     <title>Talk | DU</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="markd.css">
     <script src="lib.min.js"></script>
     <script src="avatar.js"></script>
     <script src="lib/femd2.2.0.js"></script>
@@ -42,7 +43,7 @@
     sumsg=function(e) {
         e.preventDefault();
         if (input.value.trim()) {
-          net.send(JSON.stringify({msg:btoa(encodeURIComponent(input.value)),t:Date.now()}))
+          net.send(JSON.stringify({msg:btoa(encodeURIComponent(input.value/*.replaceAll("<","&lt;").replaceAll(">","&gt;")*/)),t:Date.now()}))
             input.value = '';
             $("#form>button").style.background="rgb(51, 54, 57)";
             //back();
@@ -57,6 +58,7 @@
       else if(event.data!="t0"){
         var k=JSON.parse(event.data);
         if(k.length){
+          console.log(k)
           for(var i=0;i<k.length;i++){
             if(k[i][2]-msgtt>=600000||msgtt==0){
               messages.appendChild($h("p",new Date(Number(k[i][2])).format()))
@@ -73,7 +75,7 @@
                   //avatar.tosvg(usr,100)
                   //$h("img",{src:"./avatar.png"})
                 ]),
-                $h("div",{class:"main"},[
+                $h("div",{class:"mainmd"},[
                   $h("p",/*new Date(Number(k[i][2])).format()*/k[i][1]),
                   $h("div",{class:"md"})
                 ])
@@ -96,7 +98,6 @@
               );
             }
             gf.children[0].innerHTML=avatar.tosvg(k[i][1],remInPixels*2);
-            console.log(gf);
             messages.appendChild(gf);
             messages.scrollTo(0, gf.offsetTop);
           }

@@ -26,6 +26,6 @@ module.exports=function (port=1234){
   });
   app.listen(port);
   var t1 = Date.now();
-  console.log("Run at http[s]://localhost:"+port, t1 - t0 + "ms");
+  console.log("Run at http://localhost:"+port, t1 - t0 + "ms");
   return 1;
 }
