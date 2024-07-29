@@ -95,6 +95,7 @@ body {
   line-height: 1.25rem;
 }
 div.md{
+  margin-right: 2rem;
   border: 1px solid rgb(191, 191, 191);
   padding: 0.5rem 1rem !important;
 }
