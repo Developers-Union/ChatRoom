@@ -2,8 +2,9 @@
 
 ## Run
 ```shell
+cd main
 npm install
-node main/run.js
+node run.js
 ```
 
 
